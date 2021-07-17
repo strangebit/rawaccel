@@ -279,16 +279,37 @@ namespace grapher
 
             Size = new Size
             {
-                Width = Math.Min(workingArea.Width, optionsPanel.Size.Width + chartsPreferredSize.Width),
-                Height = Math.Min(workingArea.Height, chartsPreferredSize.Height + 48)
+                Width = optionsPanel.Size.Width + chartsPreferredSize.Width + 13,
+                Height = chartsPreferredSize.Height + 36
             };
 
-            Location = new Point
+            Location = Properties.Settings.Default.WindowLocation;
+
+            if (Properties.Settings.Default.WindowMaximized)
             {
-                X = workingArea.X + (workingArea.Width - Size.Width) / 2,
-                Y = workingArea.Y + (workingArea.Height - Size.Height) / 2
-            };
+                WindowState = FormWindowState.Maximized;
+            }
+        }
 
+        private void RawAcceleration_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            switch (WindowState)
+            {
+                case FormWindowState.Maximized:
+                    Properties.Settings.Default.WindowMaximized = true;
+                    Properties.Settings.Default.WindowLocation = RestoreBounds.Location;
+                    break;
+                case FormWindowState.Minimized:
+                    Properties.Settings.Default.WindowMaximized = false;
+                    Properties.Settings.Default.WindowLocation = RestoreBounds.Location;
+                    break;
+                case FormWindowState.Normal:
+                    Properties.Settings.Default.WindowMaximized = false;
+                    Properties.Settings.Default.WindowLocation = Location;
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
         }
 
         #endregion Method

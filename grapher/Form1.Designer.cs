@@ -2337,6 +2337,7 @@ namespace grapher
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RawAcceleration";
             this.Text = "Raw Accel";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RawAcceleration_FormClosing);
             this.optionsPanel.ResumeLayout(false);
             this.optionsPanel.PerformLayout();
             this.DirectionalityPanel.ResumeLayout(false);
